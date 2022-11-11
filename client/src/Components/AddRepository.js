@@ -19,7 +19,6 @@ function AddRepository() {
 
     const submitData = event => {
         event.preventDefault();
-
         let postData = {
             project_id: repoDetails.projectID,
             name: repoDetails.projectName,
@@ -56,6 +55,7 @@ function AddRepository() {
                                     name="projectName"
                                     value={repoDetails.projectName}
                                     onChange={handleInput}
+                                    required
                                 />
                             </InputGroup>
                         </Col>
@@ -69,6 +69,7 @@ function AddRepository() {
                                     name="projectID"
                                     value={repoDetails.projectID}
                                     onChange={handleInput}
+                                    required
                                 />
                             </InputGroup>
                         </Col>
@@ -82,6 +83,7 @@ function AddRepository() {
                                     name="projectManager"
                                     value={repoDetails.projectManager}
                                     onChange={handleInput}
+                                    required
                                 />
                             </InputGroup>
                         </Col>
@@ -95,6 +97,7 @@ function AddRepository() {
                                     name="projectScope"
                                     value={repoDetails.projectScope}
                                     onChange={handleInput}
+                                    required
                                 />
                             </InputGroup>
                         </Col>
@@ -108,6 +111,7 @@ function AddRepository() {
                                     name="projectFunctionalRequirement"
                                     value={repoDetails.projectFunctionalRequirement}
                                     onChange={handleInput}
+                                    required
                                 />
                             </InputGroup>
                         </Col>
@@ -120,6 +124,7 @@ function AddRepository() {
                                     name="completionDate"
                                     value={repoDetails.completionDate}
                                     onChange={handleInput}
+                                    required
                                 />
                             </InputGroup>
                         </Col>

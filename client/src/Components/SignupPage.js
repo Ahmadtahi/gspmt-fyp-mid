@@ -5,7 +5,7 @@ const Signup = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [userType, setUserType] = useState("");
+    const [userType, setUserType] = useState("team_lead");
 
     const collectData = () => {
 
