@@ -7,6 +7,7 @@ import Signup from './Components/SignupPage';
 import Login from './Components/LoginPage';
 import Repository from './Components/Repository';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import VerifyEmail from './Components/VerifyEmail';
 function App() {
   return (
     <div className="App">
@@ -18,6 +19,7 @@ function App() {
           <Route path="/Login" element={<Login></Login>}></Route>
           <Route path="/Signup" element={<Signup></Signup>}></Route>
           <Route path="/Repository" element={<Repository></Repository>}></Route>
+          <Route path="/VerifyEmail/:id" element={<VerifyEmail></VerifyEmail>}></Route>
         </Routes>
       </BrowserRouter>
       <Footer></Footer>

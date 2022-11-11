@@ -56,6 +56,19 @@ app.post('/login', catchAsync(async (req, resp) => {
     console.log(user);
     resp.send(user)
 }));
+// verified user
+app.patch('/verify/user/:id', catchAsync(async (req, resp) => {
+
+    const { id } = req.params;
+    console.log("🚀 ~ file: index.js ~ line 63 ~ app.patch ~ id", id)
+    let user = await User.findOneAndUpdate({ _id: id }, req.body, {
+        new: true,
+    });
+    if (!user) {
+        return resp.send({ "code": 401, "message": "User not verified." });
+    }
+    resp.send(user)
+}));
 
 
 /**
