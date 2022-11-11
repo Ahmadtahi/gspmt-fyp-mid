@@ -136,12 +136,21 @@ app.put('/project/update/:id', uploadStorage.any(), async (req, resp) => {
 // get projects 
 
 app.get('/projects/all', async (req, resp) => {
-    var { page, limit } = req.query;
+    var { page, limit, search } = req.query;
     page = parseInt(page) || 1;
     limit = parseInt(limit) || 10;
     var skip = (page - 1) * limit;
+    let where = {}
+    if (search) {
+        // where['name'] = { $regex: search, $options: "i" }
+        // where['project_id'] = { $regex: search, $options: "i" }
+        where['$or'] = [
+            { name: { $regex: search, $options: "i" } },
+            { project_id: { $regex: search, $options: "i" } }
+        ]
+    }
 
-    let result = await Projects.find().skip(skip).limit(limit);
+    let result = await Projects.find(where).skip(skip).limit(limit);
     var totalPages, totalCount;
     if (limit > 0) {
         totalCount = await Projects.countDocuments()

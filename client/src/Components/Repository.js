@@ -4,12 +4,18 @@ import Nav from 'react-bootstrap/Nav';
 import AddRepository from './AddRepository';
 import BasicExample from './BasicTable';
 import Pagination from 'react-bootstrap/Pagination';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/esm/Col';
 
 function Repository() {
     const [currentTab, setCurrentTab] = useState(0)
     const [projects, setProjects] = useState([])
     const [currentPage, setcurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState([])
+    const [search, setsearch] = useState("")
 
     useEffect(() => {
         if (currentTab === 0) {
@@ -24,7 +30,8 @@ function Repository() {
         axios.get('http://localhost:5000/projects/all', {
             params: {
                 page: currentPage,
-                limit: 5
+                limit: 5,
+                ...(search ? { search } : {})
             }
         })
             .then(res => {
@@ -74,6 +81,33 @@ function Repository() {
             {
                 currentTab === 0 ?
                     <>
+                        <Row>
+                            <Col xs={6}></Col>
+                            <Col xs={6}>
+                                <InputGroup className="mb-3">
+                                    <Form.Control
+                                        placeholder="Search Project By ID/Name"
+                                        aria-label="Search Project By ID/Name"
+                                        aria-describedby="basic-addon2"
+                                        onChange={(e) => {
+                                            setsearch(e.target.value)
+                                        }}
+                                        value={search}
+                                    />
+                                    <Button variant="outline-secondary" id="button-addon2"
+                                        onClick={() => {
+                                            if (currentPage === 1) {
+                                                fetchProjects()
+                                            } else {
+                                                setcurrentPage(1)
+                                            }
+                                        }}
+                                    >
+                                        Search
+                                    </Button>
+                                </InputGroup>
+                            </Col>
+                        </Row>
                         <BasicExample
                             projects={projects}
                             deleteProject={deleteProject}
