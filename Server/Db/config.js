@@ -1,3 +1,7 @@
-const mongoose= require('mongoose')
+const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost:27017/Users');
+mongoose.connect('mongodb+srv://Ahmadtahir:autogenerate@cluster0.u4lqjls.mongodb.net/?retryWrites=true&w=majority')
+    .then(
+        (connection) => { console.log(" database is connected: ", !!connection) },
+        err => { console.log("debug err : ", !!err) }
+    );

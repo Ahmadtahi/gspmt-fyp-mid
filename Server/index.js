@@ -1,4 +1,4 @@
-const express= require('express');
+const express = require('express');
 const httpStatus = require('http-status');
 require('./Db/config')
 const catchAsync = require('./catchAsync');
@@ -7,11 +7,11 @@ const res = require('express/lib/response');
 const User = require('./Db/User');
 const Projects = require('./Db/Projects');
 const ApiError = require('./Utils/ApiError');
-const multer  = require('multer');
+const multer = require('multer');
 const fs = require('fs');
 
 
-const app= express();
+const app = express();
 app.use(express.json());
 
 // enable cors
@@ -20,24 +20,24 @@ app.options('*', cors());
 
 const upload = multer({ dest: 'upload/' });
 
-app.post('/register', async (req,resp) => {
-    console.log(req.body);
+app.post('/register', async (req, resp) => {
+    console.log("register req.body :", req.body);
     let newUser = new User(req.body);
     let result = await newUser.save();
     resp.send(result)
 });
 
-app.post('/login', catchAsync( async (req,resp) => {
+app.post('/login', catchAsync(async (req, resp) => {
 
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     let user = await User.findOne({ email });
 
     //let checkPwd = await findUser.isPasswordMatch(password);
 
     if (!user || !(await user.isPasswordMatch(password))) {
-        resp.send({"code" : 401, "message": "Incorrect email or password"});
+        resp.send({ "code": 401, "message": "Incorrect email or password" });
     }
-    
+
     console.log(user);
     resp.send(user)
 }));
@@ -60,11 +60,11 @@ let uploadStorage = multer({ storage: storage });
 let fileName = (fileObj) => {
     return fileObj.originalname.substring(fileObj.originalname.lastIndexOf('.'), fileObj.originalname.length);
 }
-app.post('/project/create', uploadStorage.any(), async (req,resp) => {
+app.post('/project/create', uploadStorage.any(), async (req, resp) => {
 
     console.log(req.body);
     console.log(req.files);
-    console.log("uc data:" , req.files.filter(s => s.fieldname.includes('usecases'))[0].fieldname)
+    console.log("uc data:", req.files.filter(s => s.fieldname.includes('usecases'))[0].fieldname)
 
     let usecasesFile = req.files.filter(s => s.fieldname.includes('usecases'))[0];
     let ssdsFile = req.files.filter(s => s.fieldname.includes('ssds'))[0];
@@ -72,7 +72,7 @@ app.post('/project/create', uploadStorage.any(), async (req,resp) => {
 
     let projectData = {
         "project_id": req.body.project_id,
-        "name" : req.body.name,
+        "name": req.body.name,
         "completion_date": Date.now(),
         "manager_name": req.body.manager_name,
         "functional_requirements": req.body.functional_requirements,
@@ -81,17 +81,17 @@ app.post('/project/create', uploadStorage.any(), async (req,resp) => {
         "ssds": 'uploads/' + ssdsFile.fieldname + '-' + Date.now() + fileName(ssdsFile),
         "system_architecture": 'uploads/' + systemArchitectureFile.fieldname + '-' + Date.now() + fileName(systemArchitectureFile)
     }
-    
+
     console.log("ProjectData: ", projectData);
 
     let project = new Projects(projectData);
     let result = await project.save();
-    
+
     resp.send(result);
 });
 
 // Project Update
-app.put('/project/update/:id', uploadStorage.any(), async (req,resp) => {
+app.put('/project/update/:id', uploadStorage.any(), async (req, resp) => {
 
     let projectId = req.params.id;
 
@@ -101,7 +101,7 @@ app.put('/project/update/:id', uploadStorage.any(), async (req,resp) => {
 
     let projectData = {
         "project_id": req.body.project_id,
-        "name" : req.body.name,
+        "name": req.body.name,
         "completion_date": Date.now(),
         "manager_name": req.body.manager_name,
         "functional_requirements": req.body.functional_requirements,
@@ -111,12 +111,14 @@ app.put('/project/update/:id', uploadStorage.any(), async (req,resp) => {
         "system_architecture": 'uploads/' + systemArchitectureFile.fieldname + '-' + Date.now() + fileName(systemArchitectureFile)
     }
 
-    let result = await Projects.findOneAndReplace({projectId}, projectData);
-    
+    let result = await Projects.findOneAndReplace({ projectId }, projectData);
+
     console.log("Update Result: ", result);
     resp.send(result);
 });
 
 
 
-app.listen(5000)
+app.listen(5000, () => {
+    console.log("App is listening at port 5000 ")
+})

@@ -1,19 +1,21 @@
 .App {
   text-align: left;
 }
-.nav-ul li{
-display: inline-block;
-padding: 10px;
-background-color: slategray;
-text-decoration-thickness: 3px;
-}
-.nav-ul{
-padding: 5px;
-margin:0;
-background-color: slategray;
+
+.nav-ul li {
+  display: inline-block;
+  padding: 10px;
+  background-color: slategray;
+  text-decoration-thickness: 3px;
 }
 
-.appButton{
+.nav-ul {
+  padding: 5px;
+  margin: 0;
+  background-color: slategray;
+}
+
+.appButton {
   margin: 26px;
   padding: 10px;
   width: 198px;
@@ -22,7 +24,7 @@ background-color: slategray;
   cursor: pointer;
 }
 
-.inputBox{
+.inputBox {
   display: block;
   margin: 25px;
   padding: 7px;
@@ -31,22 +33,32 @@ background-color: slategray;
 
 }
 
-.Register{
+.paddingClass {
+  display: block;
+  margin: 0px 25px;
+  padding: 7px;
+  box-sizing: border-box;
+  width: 300px;
+}
+
+.Register {
   margin-left: 30px;
 }
 
-.Footer{
+.Footer {
   position: absolute;
   bottom: 0;
   text-align: center;
   width: 100%;
   background-color: slategray;
 }
-.nav-ul li a{
+
+.nav-ul li a {
   color: #080505;
-    padding: 6px;
-    text-decoration: none;
+  padding: 6px;
+  text-decoration: none;
 }
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -79,6 +91,7 @@ background-color: slategray;
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

@@ -1,4 +1,4 @@
-const mongoose= require('mongoose')
+const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
     name: {
@@ -7,15 +7,19 @@ const userSchema = mongoose.Schema({
     email: {
         type: String
     },
-    password : { 
+    password: {
         type: String,
         private: false
+    },
+    userType: {
+        type: String,
+        enum: ['project_manager', 'team_member', 'team_lead']
     }
 });
 
 userSchema.methods.isPasswordMatch = async function (password) {
     const user = this;
-    console.log(this);
+    console.log("debug this :", this);
     return password == user.password;
 };
 
