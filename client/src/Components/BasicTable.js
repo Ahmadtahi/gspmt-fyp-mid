@@ -25,7 +25,6 @@ function BasicExample({ projects, deleteProject, ...props }) {
             <tbody>
                 {
                     projects?.map((project, idx) => {
-                        console.log("debug project : ", idx + 1, " = ", project.completion_date)
                         return (
                             <tr key={idx}>
                                 <td>{idx + 1}</td>
@@ -41,7 +40,7 @@ function BasicExample({ projects, deleteProject, ...props }) {
                                             className='pointer'
                                             style={{ boxSizing: 'border-box', paddingLeft: '40px' }}
                                             onClick={() => {
-                                                deleteProject(project.project_id)
+                                                deleteProject(project._id)
                                             }}
                                         ><AiOutlineDelete /></td>
                                         :

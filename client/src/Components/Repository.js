@@ -3,10 +3,13 @@ import React, { useEffect, useState } from 'react'
 import Nav from 'react-bootstrap/Nav';
 import AddRepository from './AddRepository';
 import BasicExample from './BasicTable';
+import Pagination from 'react-bootstrap/Pagination';
 
 function Repository() {
     const [currentTab, setCurrentTab] = useState(0)
     const [projects, setProjects] = useState([])
+    const [currentPage, setcurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState([])
 
     useEffect(() => {
         if (currentTab === 0) {
@@ -14,16 +17,21 @@ function Repository() {
         } else {
             setProjects([])
         }
-    }, [currentTab])
+    }, [currentTab, currentPage])
 
 
     const fetchProjects = async () => {
-        axios.get('http://localhost:5000/projects/all')
+        axios.get('http://localhost:5000/projects/all', {
+            params: {
+                page: currentPage,
+                limit: 5
+            }
+        })
             .then(res => {
-                setProjects(res.data)
+                setTotalPages(res.data.totalPages)
+                setProjects(res.data.projects)
             })
             .catch((err) => {
-                alert("Something went during fetch. Please try again.")
             })
     }
 
@@ -70,6 +78,37 @@ function Repository() {
                             projects={projects}
                             deleteProject={deleteProject}
                         />
+                        <Pagination className='flex' style={{ justifyContent: 'flex-end' }}>
+                            <Pagination.First
+                                onClick={() => {
+                                    setcurrentPage(1)
+                                }}
+                                disabled={currentPage === 1}
+                            />
+                            <Pagination.Prev
+                                onClick={() => {
+                                    const num = currentPage - 1
+                                    setcurrentPage(num)
+                                }}
+                                disabled={currentPage === 1}
+                            />
+                            <Pagination.Item key={currentPage} active={true}>
+                                {currentPage}
+                            </Pagination.Item>
+                            <Pagination.Next
+                                onClick={() => {
+                                    const num = currentPage + 1
+                                    setcurrentPage(num)
+                                }}
+                                disabled={currentPage === totalPages}
+                            />
+                            <Pagination.Last
+                                onClick={() => {
+                                    setcurrentPage(totalPages)
+                                }}
+                                disabled={currentPage === totalPages}
+                            />
+                        </Pagination>
                     </>
                     :
                     currentTab === 1 ?

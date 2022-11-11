@@ -107,10 +107,23 @@ app.put('/project/update/:id', uploadStorage.any(), async (req, resp) => {
 // get projects 
 
 app.get('/projects/all', async (req, resp) => {
+    var { page, limit } = req.query;
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 10;
+    var skip = (page - 1) * limit;
 
-    let result = await Projects.find();
+    let result = await Projects.find().skip(skip).limit(limit);
+    var totalPages, totalCount;
+    if (limit > 0) {
+        totalCount = await Projects.countDocuments()
+        totalPages = Math.ceil(totalCount / limit);
+    }
 
-    resp.send(result);
+    resp.send({
+        projects: result,
+        totalPages,
+        totalCount
+    });
 });
 
 // delete projects 
@@ -118,7 +131,7 @@ app.get('/projects/all', async (req, resp) => {
 app.post('/project/delete/:id', async (req, resp) => {
     let projectId = req.params.id;
     let result = await Projects.deleteOne({
-        project_id: projectId
+        _id: projectId
     });
 
     resp.send(result);
