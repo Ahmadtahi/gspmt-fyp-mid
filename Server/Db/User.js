@@ -14,6 +14,10 @@ const userSchema = mongoose.Schema({
     userType: {
         type: String,
         enum: ['project_manager', 'team_member', 'team_lead']
+    },
+    status: {
+        type: String,
+        default: 'not_verified'
     }
 });
 

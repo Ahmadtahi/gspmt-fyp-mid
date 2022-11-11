@@ -9,6 +9,9 @@ const Projects = require('./Db/Projects');
 const ApiError = require('./Utils/ApiError');
 const multer = require('multer');
 const fs = require('fs');
+const userEmailService = require("./Services/Email");
+const { sendMail } = require('./Utils/email.utils');
+const { emailVerificationTemplate } = require('./templates/email/email_verification');
 
 
 const app = express();
@@ -24,6 +27,19 @@ app.post('/register', async (req, resp) => {
     console.log("register req.body :", req.body);
     let newUser = new User(req.body);
     let result = await newUser.save();
+
+    await userEmailService.createNewEmailVerification({
+        userId: newUser._id,
+    });
+    const url = `${process.env.FRONT_END_URL}/VerifyEmail/${newUser._id}`;
+
+    await sendMail({
+        from: process.env.EMAIL_USER,
+        to: newUser.email,
+        subject: "Please Verify Email",
+        html: emailVerificationTemplate(url, "Verify Email"),
+    });
+
     resp.send(result)
 });
 
