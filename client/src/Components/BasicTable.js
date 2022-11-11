@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import React from 'react'
-import { AiOutlineDelete } from 'react-icons/ai';
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 
 function BasicExample({ projects, deleteProject, ...props }) {
     return (
@@ -15,7 +15,7 @@ function BasicExample({ projects, deleteProject, ...props }) {
                     <th>Functional Requirements</th>
                     <th>Completion Date</th>
                     {
-                        JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
+                        JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' ?
                             <th>Actions</th>
                             :
                             ''
@@ -35,14 +35,25 @@ function BasicExample({ projects, deleteProject, ...props }) {
                                 <td>{project.functional_requirements}</td>
                                 <td>{new Date(project.completion_date).toUTCString().split(" ", 3)}</td>
                                 {
-                                    JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
+                                    JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' ?
                                         <td
                                             className='pointer'
                                             style={{ boxSizing: 'border-box', paddingLeft: '40px' }}
-                                            onClick={() => {
-                                                deleteProject(project._id)
-                                            }}
-                                        ><AiOutlineDelete /></td>
+                                        >
+                                            {
+                                                JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
+                                                    <AiOutlineDelete
+                                                        onClick={() => {
+                                                            deleteProject(project._id)
+                                                        }} />
+                                                    :
+                                                    <AiOutlineEdit
+                                                        onClick={() => {
+                                                            window.location.replace(`/Repository/${project._id}`)
+                                                        }}
+                                                    />
+                                            }
+                                        </td>
                                         :
                                         ''
                                 }

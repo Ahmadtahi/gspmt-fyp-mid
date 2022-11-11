@@ -25,7 +25,6 @@ function Repository() {
         }
     }, [currentTab, currentPage])
 
-
     const fetchProjects = async () => {
         axios.get('http://localhost:5000/projects/all', {
             params: {
@@ -81,7 +80,7 @@ function Repository() {
             {
                 currentTab === 0 ?
                     <>
-                        <Row>
+                        <Col xs={10}>
                             <Col xs={6}></Col>
                             <Col xs={6}>
                                 <InputGroup className="mb-3">
@@ -107,7 +106,7 @@ function Repository() {
                                     </Button>
                                 </InputGroup>
                             </Col>
-                        </Row>
+                        </Col>
                         <BasicExample
                             projects={projects}
                             deleteProject={deleteProject}

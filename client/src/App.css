@@ -6,19 +6,23 @@
 
 .App {
   text-align: left;
+  background-color: white;
 }
 
 .nav-ul li {
   display: inline-block;
   padding: 10px;
-  background-color: slategray;
-  text-decoration-thickness: 3px;
+  /* background-color: slategray; */
+  /* text-decoration-thickness: 3px; */
+  border: 4px solid white;
+  color: white;
 }
 
 .nav-ul {
   padding: 5px;
   margin: 0;
   background-color: slategray;
+  color: white;
 }
 
 .appButton {

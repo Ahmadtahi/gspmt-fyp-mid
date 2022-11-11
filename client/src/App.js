@@ -8,6 +8,7 @@ import Login from './Components/LoginPage';
 import Repository from './Components/Repository';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import VerifyEmail from './Components/VerifyEmail';
+import EditProjects from './Components/EditProjects';
 function App() {
   return (
     <div className="App">
@@ -20,9 +21,10 @@ function App() {
           <Route path="/Signup" element={<Signup></Signup>}></Route>
           <Route path="/Repository" element={<Repository></Repository>}></Route>
           <Route path="/VerifyEmail/:id" element={<VerifyEmail></VerifyEmail>}></Route>
+          <Route path="/Repository/:id" element={<EditProjects></EditProjects>}></Route>
         </Routes>
       </BrowserRouter>
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </div>
   );
 }
