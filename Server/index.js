@@ -33,11 +33,10 @@ app.post('/login', catchAsync(async (req, resp) => {
     let user = await User.findOne({ email });
 
     //let checkPwd = await findUser.isPasswordMatch(password);
-
     if (!user || !(await user.isPasswordMatch(password))) {
         resp.send({ "code": 401, "message": "Incorrect email or password" });
     }
-
+    user.password = null
     console.log(user);
     resp.send(user)
 }));
@@ -62,29 +61,17 @@ let fileName = (fileObj) => {
 }
 app.post('/project/create', uploadStorage.any(), async (req, resp) => {
 
-    console.log(req.body);
-    console.log(req.files);
-    console.log("uc data:", req.files.filter(s => s.fieldname.includes('usecases'))[0].fieldname)
+    // console.log(req.body);
+    // console.log(req.files);
+    // console.log("uc data:", req.files.filter(s => s.fieldname.includes('usecases'))[0].fieldname)
 
-    let usecasesFile = req.files.filter(s => s.fieldname.includes('usecases'))[0];
-    let ssdsFile = req.files.filter(s => s.fieldname.includes('ssds'))[0];
-    let systemArchitectureFile = req.files.filter(s => s.fieldname.includes('system_architecture'))[0];
+    // let usecasesFile = req.files.filter(s => s.fieldname.includes('usecases'))[0];
+    // let ssdsFile = req.files.filter(s => s.fieldname.includes('ssds'))[0];
+    // let systemArchitectureFile = req.files.filter(s => s.fieldname.includes('system_architecture'))[0];
 
-    let projectData = {
-        "project_id": req.body.project_id,
-        "name": req.body.name,
-        "completion_date": Date.now(),
-        "manager_name": req.body.manager_name,
-        "functional_requirements": req.body.functional_requirements,
-        "scope": req.body.scope,
-        "usecases": 'uploads/' + usecasesFile.fieldname + '-' + Date.now() + fileName(usecasesFile),
-        "ssds": 'uploads/' + ssdsFile.fieldname + '-' + Date.now() + fileName(ssdsFile),
-        "system_architecture": 'uploads/' + systemArchitectureFile.fieldname + '-' + Date.now() + fileName(systemArchitectureFile)
-    }
+    console.log("ProjectData: ", req.body);
 
-    console.log("ProjectData: ", projectData);
-
-    let project = new Projects(projectData);
+    let project = new Projects(req.body);
     let result = await project.save();
 
     resp.send(result);
@@ -114,6 +101,15 @@ app.put('/project/update/:id', uploadStorage.any(), async (req, resp) => {
     let result = await Projects.findOneAndReplace({ projectId }, projectData);
 
     console.log("Update Result: ", result);
+    resp.send(result);
+});
+
+// get projects 
+
+app.get('/projects/all', async (req, resp) => {
+
+    let result = await Projects.find();
+
     resp.send(result);
 });
 

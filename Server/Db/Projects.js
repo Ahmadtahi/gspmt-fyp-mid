@@ -1,22 +1,23 @@
-const mongoose= require('mongoose')
+const mongoose = require('mongoose')
 
 const projectSchema = mongoose.Schema({
     project_id: {
         type: String
     },
     name: {
-        type: String
+        type: String,
+        required: true
     },
-    completion_date: { 
+    completion_date: {
         type: Date
     },
-    manager_name: { 
+    manager_name: {
         type: String
     },
-    functional_requirements: { 
+    functional_requirements: {
         type: String
     },
-    scope: { 
+    scope: {
         type: String
     },
     usecases: {
@@ -27,11 +28,9 @@ const projectSchema = mongoose.Schema({
     },
     system_architecture: {
         type: String
-    },
-    created_at: {
-        type: Date,
-        default: Date.now
     }
+}, {
+    timestamps: true
 });
 
 

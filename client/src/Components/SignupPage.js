@@ -35,7 +35,7 @@ const Signup = () => {
                 <input className="inputBox" type='text' onChange={(e) => setName(e.target.value)} placeholder='Enter your name' required></input>
                 <input className="inputBox" type='email' onChange={(e) => setEmail(e.target.value)} placeholder='Enter your Email' required></input>
                 <input className="inputBox" type='Password' onChange={(e) => setPassword(e.target.value)} placeholder='Enter your Password' required></input>
-                <label for="cars" className='paddingClass'>Choose User Type:</label>
+                <label for="users" className='paddingClass'>Choose User Type:</label>
                 <br />
                 <select name="users" id="users"
                     onChange={(e) => setUserType(e.target.value)}
@@ -44,7 +44,6 @@ const Signup = () => {
                     <option value="team_lead">Team Lead</option>
                     <option value="project_manager">Project Manager</option>
                     <option value="team_member">Team Member</option>
-                    <option value="audi">Audi</option>
                 </select>
                 <br />
                 <button onClick={collectData} className="appButton" type='submit' > Signup </button>
