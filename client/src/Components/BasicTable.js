@@ -1,7 +1,8 @@
 import Table from 'react-bootstrap/Table';
 import React from 'react'
+import { AiOutlineDelete } from 'react-icons/ai';
 
-function BasicExample({ projects, ...props }) {
+function BasicExample({ projects, deleteProject, ...props }) {
     return (
         <Table striped bordered hover>
             <thead>
@@ -13,6 +14,12 @@ function BasicExample({ projects, ...props }) {
                     <th>Scope</th>
                     <th>Functional Requirements</th>
                     <th>Completion Date</th>
+                    {
+                        JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
+                            <th>Actions</th>
+                            :
+                            ''
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +35,18 @@ function BasicExample({ projects, ...props }) {
                                 <td>{project.scope}</td>
                                 <td>{project.functional_requirements}</td>
                                 <td>{new Date(project.completion_date).toUTCString().split(" ", 3)}</td>
+                                {
+                                    JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
+                                        <td
+                                            className='pointer'
+                                            style={{ boxSizing: 'border-box', paddingLeft: '40px' }}
+                                            onClick={() => {
+                                                deleteProject(project.project_id)
+                                            }}
+                                        ><AiOutlineDelete /></td>
+                                        :
+                                        ''
+                                }
                             </tr>
                         )
                     })

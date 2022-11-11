@@ -24,7 +24,7 @@ const Login = () => {
                 } else {
                     alert('login successfully');
                     await localStorage.setItem("user", JSON.stringify(res.data))
-                    window.location.replace('/home')
+                    window.location.replace('/')
                 }
             });
     }

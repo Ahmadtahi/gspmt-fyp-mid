@@ -113,6 +113,17 @@ app.get('/projects/all', async (req, resp) => {
     resp.send(result);
 });
 
+// delete projects 
+
+app.post('/project/delete/:id', async (req, resp) => {
+    let projectId = req.params.id;
+    let result = await Projects.deleteOne({
+        project_id: projectId
+    });
+
+    resp.send(result);
+});
+
 
 
 app.listen(5000, () => {

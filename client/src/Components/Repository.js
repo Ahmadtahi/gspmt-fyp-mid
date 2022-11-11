@@ -27,6 +27,17 @@ function Repository() {
             })
     }
 
+    const deleteProject = async (projectId) => {
+        axios.post(`http://localhost:5000/project/delete/${projectId}`)
+            .then(res => {
+                alert(`Project has been deleted successfully`);
+                window.location.reload();
+            })
+            .catch((err) => {
+                alert("Something went during fetch. Please try again.")
+            })
+    }
+
     return (
         <>
             <Nav variant="pills" defaultActiveKey={currentTab}>
@@ -57,6 +68,7 @@ function Repository() {
                     <>
                         <BasicExample
                             projects={projects}
+                            deleteProject={deleteProject}
                         />
                     </>
                     :

@@ -18,6 +18,12 @@ const Navbar = () => {
                         :
                         <>
                             <li> <Link to='/Repository'> Repository </Link> </li>
+                            <li
+                                onClick={async () => {
+                                    await localStorage.removeItem("user")
+                                    window.location.replace('/')
+                                }}
+                            > <Link to='/'> Logout </Link> </li>
                         </>
                 }
             </ul>
