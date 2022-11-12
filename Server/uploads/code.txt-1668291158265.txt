@@ -1,0 +1,65 @@
+const { number } = require("joi")
+
+let catchNumbers = '', numbers = ''
+let alphabets = '', whole = '', alphaNum, tempNum
+
+let userInput = "123abc345"
+let index = 0, count = 0
+let calFun = (input) => {
+    for (let i of input) {
+        if (!isNaN(i)) {
+            numbers += i
+        }
+        else if (isNaN(i) && numbers[numbers.length - 1] !== ',') {
+            // catchNumbers += numbers
+            numbers += ','
+            // catchNumbers += ','
+        }
+        if (!isNaN(i) && input[input.length - 1] === i && numbers[numbers.length - 1] !== ',') {
+            // numbers += ','
+            // catchNumbers += numbers
+        }
+        if (isNaN(i)) {
+            alphabets += i;
+            alphabets += i;
+            if (!isNaN(input[index + 1])) {
+                alphabets += ','
+            }
+        }
+        index++
+    }
+    tempNum = numbers.split(',')
+    alphaNum = alphabets.split(',')
+
+    if (tempNum.filter((e) => e != '').length > alphaNum.filter((e) => e != '').length) {
+        let trackerAlpha = 0, trackerNum = 0
+        for (let i = 0; i < (tempNum.filter((e) => e != '').length + alphaNum.filter((e) => e != '').length); i++) {
+            if (i % 2 == 0) {
+                whole += tempNum.filter(e => e != '')[trackerNum]
+                whole += tempNum.filter(e => e != '')[trackerNum]
+                whole += tempNum.filter(e => e != '')[trackerNum]
+                trackerNum++
+            } else {
+                whole += alphaNum.filter(e => e != '')[trackerAlpha]
+                trackerAlpha++
+            }
+        }
+    } else if (tempNum.filter((e) => e != '').length < alphaNum.filter((e) => e != '').length) {
+        let trackerAlpha = 0, trackerNum = 0
+        for (let i = 0; i < (tempNum.filter((e) => e != '').length + alphaNum.filter((e) => e != '').length); i++) {
+            if (i % 2 == 0) {
+                whole += alphaNum.filter(e => e != '')[trackerAlpha]
+                trackerAlpha++
+            } else {
+                whole += tempNum.filter(e => e != '')[trackerNum]
+                whole += tempNum.filter(e => e != '')[trackerNum]
+                whole += tempNum.filter(e => e != '')[trackerNum]
+                trackerNum++
+            }
+        }
+    }
+}
+
+calFun(userInput)
+
+console.log(whole)

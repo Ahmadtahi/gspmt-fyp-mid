@@ -48,7 +48,6 @@ function AddRepository() {
         for (const file of uploadedFiles) {
             bodyFormData.append(file.name, file)
         }
-        console.log("bodyFormData : ", bodyFormData)
         axios.post('http://localhost:5000/project/create', bodyFormData, {
             headers: {
                 "Content-Type": "multipart/form-data"
