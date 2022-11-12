@@ -5,6 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 
 function AddRepository() {
     const [repoDetails, setrepoDetails] = useState({})
@@ -33,12 +34,12 @@ function AddRepository() {
     const submitData = event => {
         event.preventDefault();
         let postData = {
-            project_id: repoDetails.projectID,
-            name: repoDetails.projectName,
+            project_id: repoDetails.projectID.trim(),
+            name: repoDetails.projectName.trim(),
             completion_date: repoDetails.completionDate,
-            manager_name: repoDetails.projectManager,
-            functional_requirements: repoDetails.projectFunctionalRequirement,
-            scope: repoDetails.projectScope,
+            manager_name: repoDetails.projectManager.trim(),
+            functional_requirements: repoDetails.projectFunctionalRequirement.trim(),
+            scope: repoDetails.projectScope.trim(),
         };
         var bodyFormData = new FormData();
         for (const data in postData) {
@@ -161,6 +162,9 @@ function AddRepository() {
                                 multiple
                             />
                             <Button onClick={handleClick} variant="info fullWidth" >Upload Project Related Files</Button>
+                            <Alert variant={'info'} className="mt-3">
+                                {uploadedFiles.length} new files uploaded
+                            </Alert>
                         </Col>
                         <Col xs={12}>
                             <Button variant="primary fullWidth" type="submit">Add Project</Button>
