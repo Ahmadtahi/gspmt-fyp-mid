@@ -1,8 +1,10 @@
 import Table from 'react-bootstrap/Table';
 import React from 'react'
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import Button from 'react-bootstrap/Button';
 
 function BasicExample({ projects, deleteProject, ...props }) {
+
     return (
         <Table striped bordered hover>
             <thead>
@@ -14,6 +16,12 @@ function BasicExample({ projects, deleteProject, ...props }) {
                     <th>Scope</th>
                     <th>Functional Requirements</th>
                     <th>Completion Date</th>
+                    {
+                        JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
+                            <th>Similarity</th>
+                            :
+                            ''
+                    }
                     {
                         JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' ?
                             <th>Actions</th>
@@ -35,6 +43,21 @@ function BasicExample({ projects, deleteProject, ...props }) {
                                 <td>{project.functional_requirements}</td>
                                 <td>{new Date(project.completion_date).toUTCString().split(" ", 3)}</td>
                                 {
+                                    JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
+                                        <td className='flex'>
+                                            <Button
+                                                variant="primary"
+                                                onClick={() => {
+                                                    window.location.replace(`/Repository/Similar/${project._id}`)
+                                                }}
+                                            >
+                                                View Similarity Check
+                                            </Button>
+                                        </td>
+                                        :
+                                        ''
+                                }
+                                {
                                     JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' ?
                                         <td
                                             className='pointer'
@@ -42,10 +65,12 @@ function BasicExample({ projects, deleteProject, ...props }) {
                                         >
                                             {
                                                 JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
-                                                    <AiOutlineDelete
-                                                        onClick={() => {
-                                                            deleteProject(project._id)
-                                                        }} />
+                                                    <>
+                                                        <AiOutlineDelete
+                                                            onClick={() => {
+                                                                deleteProject(project._id)
+                                                            }} />
+                                                    </>
                                                     :
                                                     <AiOutlineEdit
                                                         onClick={() => {
@@ -63,7 +88,7 @@ function BasicExample({ projects, deleteProject, ...props }) {
                 }
 
             </tbody>
-        </Table>
+        </Table >
     );
 }
 

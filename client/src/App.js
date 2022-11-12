@@ -9,6 +9,7 @@ import Repository from './Components/Repository';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import VerifyEmail from './Components/VerifyEmail';
 import EditProjects from './Components/EditProjects';
+import SimilarityCheck from './Components/SimilarityCheck';
 function App() {
   return (
     <div className="App">
@@ -22,6 +23,7 @@ function App() {
           <Route path="/Repository" element={<Repository></Repository>}></Route>
           <Route path="/VerifyEmail/:id" element={<VerifyEmail></VerifyEmail>}></Route>
           <Route path="/Repository/:id" element={<EditProjects></EditProjects>}></Route>
+          <Route path="/Repository/Similar/:id" element={<SimilarityCheck></SimilarityCheck>}></Route>
         </Routes>
       </BrowserRouter>
       {/* <Footer></Footer> */}
