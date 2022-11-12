@@ -165,10 +165,18 @@ app.get('/projects/all', async (req, resp) => {
 });
 
 // delete projects 
-
 app.post('/project/delete/:id', async (req, resp) => {
     let projectId = req.params.id;
     let result = await Projects.deleteOne({
+        _id: projectId
+    });
+
+    resp.send(result);
+});
+// get project 
+app.get('/project/:id', async (req, resp) => {
+    let projectId = req.params.id;
+    let result = await Projects.findOne({
         _id: projectId
     });
 
