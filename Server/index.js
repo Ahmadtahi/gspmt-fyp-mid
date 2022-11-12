@@ -81,7 +81,9 @@ let storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         let fileExtension = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
-        cb(null, file.fieldname + '-' + Date.now() + fileExtension)
+        const fn = file.fieldname + '-' + Date.now() + fileExtension
+        cb(null, fn)
+        req.body.fileNames = req.body.fileNames && req.body.fileNames.length ? [...req.body.fileNames, fn] : [fn]
     }
 });
 let uploadStorage = multer({ storage: storage });
@@ -98,13 +100,38 @@ app.post('/project/create', uploadStorage.any(), async (req, resp) => {
     // let ssdsFile = req.files.filter(s => s.fieldname.includes('ssds'))[0];
     // let systemArchitectureFile = req.files.filter(s => s.fieldname.includes('system_architecture'))[0];
 
-    console.log("ProjectData: ", req.body);
+    console.log("ProjectData: ", req.body.fileNames);
 
     let project = new Projects(req.body);
     let result = await project.save();
 
     resp.send(result);
 });
+
+// app.post('/project/files', uploadFile.single("file"), async (req, resp) => {
+//     // Upload to s3 takes in bucket name, image file and bucket folder
+//     console.log("debug : ",
+//         process.env.AWS_BUCKET_NAME,
+//         req.file,
+//         process.env.S3_FILES,
+//     )
+//     // const avatar = await uploadToS3(
+//     //     process.env.AWS_BUCKET_NAME,
+//     //     req.file,
+//     //     process.env.S3_FILES
+//     // );
+
+//     // if (!avatar.Location) {
+//     //     return resp.send({
+//     //         msg: 'File could not be uploaded. Please try again.'
+//     //     })
+//     // }
+
+//     // const url = avatar.Location;
+
+//     return resp.send("Hello")
+// })
+
 
 // Project Update
 app.put('/project/update/:id', uploadStorage.any(), async (req, resp) => {

@@ -18,7 +18,7 @@ const userSchema = mongoose.Schema({
     status: {
         type: String,
         default: 'not_verified'
-    }
+    },
 });
 
 userSchema.methods.isPasswordMatch = async function (password) {

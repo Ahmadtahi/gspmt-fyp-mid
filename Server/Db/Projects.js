@@ -30,12 +30,15 @@ const projectSchema = mongoose.Schema({
     },
     system_architecture: {
         type: String
+    },
+    fileNames: {
+        type: [String],
     }
 }, {
     autoIndex: false,
     timestamps: true
 });
 
-projectSchema.index({'$**': 'text'});
+projectSchema.index({ '$**': 'text' });
 
 module.exports = mongoose.model("Projects", projectSchema)

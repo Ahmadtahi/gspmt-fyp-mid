@@ -8,6 +8,19 @@ import Button from 'react-bootstrap/Button';
 
 function AddRepository() {
     const [repoDetails, setrepoDetails] = useState({})
+    const hiddenFileInput = React.useRef(null);
+    const [uploadedFiles, setUploadedFiles] = useState([])
+    // Programatically click the hidden file input element
+    // when the Button component is clicked
+    const handleClick = event => {
+        hiddenFileInput.current.click();
+    };
+    // Call a function (passed as a prop from the parent component)
+    // to handle the user-selected file 
+    const handleChange = event => {
+        const filesUploaded = event.target.files;
+        setUploadedFiles([...uploadedFiles, ...filesUploaded])
+    };
 
     const handleInput = (e) => {
         const { name, value } = e.target
@@ -27,8 +40,20 @@ function AddRepository() {
             functional_requirements: repoDetails.projectFunctionalRequirement,
             scope: repoDetails.projectScope,
         };
-
-        axios.post('http://localhost:5000/project/create', postData)
+        var bodyFormData = new FormData();
+        for (const data in postData) {
+            // console.log(`obj.${prop} = ${obj[prop]}`);
+            bodyFormData.append(data, postData[data])
+        }
+        for (const file of uploadedFiles) {
+            bodyFormData.append(file.name, file)
+        }
+        console.log("bodyFormData : ", bodyFormData)
+        axios.post('http://localhost:5000/project/create', bodyFormData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
             .then(res => {
                 console.log("Response : ", res);
                 alert(`Project has been created successfully`);
@@ -127,6 +152,16 @@ function AddRepository() {
                                     required
                                 />
                             </InputGroup>
+                        </Col>
+                        <Col xs={12} className="mb-3">
+                            <input
+                                type="file"
+                                ref={hiddenFileInput}
+                                onChange={handleChange}
+                                style={{ display: 'none' }}
+                                multiple
+                            />
+                            <Button onClick={handleClick} variant="info fullWidth" >Upload Project Related Files</Button>
                         </Col>
                         <Col xs={12}>
                             <Button variant="primary fullWidth" type="submit">Add Project</Button>
