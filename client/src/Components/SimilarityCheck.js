@@ -5,6 +5,10 @@ import { useParams } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/esm/Col';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 function SimilarityCheck() {
     const params = useParams();
@@ -12,6 +16,7 @@ function SimilarityCheck() {
     const [projects, setProjects] = useState([])
     const [currentPage, setcurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState([])
+    const [search, setsearch] = useState("")
 
     useEffect(() => {
         if (params.id) {
@@ -28,7 +33,8 @@ function SimilarityCheck() {
         axios.get('http://localhost:5000/projects/all', {
             params: {
                 page: currentPage,
-                limit: 5
+                limit: 5,
+                ...(search ? { search } : {})
             }
         })
             .then(res => {
@@ -60,6 +66,33 @@ function SimilarityCheck() {
 
     return (
         <>
+            <Row style={{ margin: 0 }}>
+                <Col xs={6}></Col>
+                <Col xs={6}>
+                    <InputGroup className="mb-3 mt-3">
+                        <Form.Control
+                            placeholder="Search Project By ID/Name"
+                            aria-label="Search Project By ID/Name"
+                            aria-describedby="basic-addon2"
+                            onChange={(e) => {
+                                setsearch(e.target.value)
+                            }}
+                            value={search}
+                        />
+                        <Button variant="outline-secondary" id="button-addon2"
+                            onClick={() => {
+                                if (currentPage === 1) {
+                                    fetchProjects()
+                                } else {
+                                    setcurrentPage(1)
+                                }
+                            }}
+                        >
+                            Search
+                        </Button>
+                    </InputGroup>
+                </Col>
+            </Row>
             <Table striped bordered hover>
                 <thead>
                     <tr>
