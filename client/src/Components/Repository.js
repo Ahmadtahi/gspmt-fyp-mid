@@ -80,10 +80,10 @@ function Repository() {
             {
                 currentTab === 0 ?
                     <>
-                        <Col xs={10}>
+                        <Row style={{ margin: 0 }}>
                             <Col xs={6}></Col>
                             <Col xs={6}>
-                                <InputGroup className="mb-3">
+                                <InputGroup className="mb-3 mt-3">
                                     <Form.Control
                                         placeholder="Search Project By ID/Name"
                                         aria-label="Search Project By ID/Name"
@@ -106,7 +106,7 @@ function Repository() {
                                     </Button>
                                 </InputGroup>
                             </Col>
-                        </Col>
+                        </Row>
                         <BasicExample
                             projects={projects}
                             deleteProject={deleteProject}
