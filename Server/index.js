@@ -110,26 +110,27 @@ app.post('/project/create', uploadStorage.any(), async (req, resp) => {
 app.put('/project/update/:id', uploadStorage.any(), async (req, resp) => {
 
     let projectId = req.params.id;
+    console.log("🚀 ~ file: index.js ~ line 113 ~ app.put ~ projectId", projectId)
 
-    let usecasesFile = req.files.filter(s => s.fieldname.includes('usecases'))[0];
-    let ssdsFile = req.files.filter(s => s.fieldname.includes('ssds'))[0];
-    let systemArchitectureFile = req.files.filter(s => s.fieldname.includes('system_architecture'))[0];
+    // let usecasesFile = req.files.filter(s => s.fieldname.includes('usecases'))[0];
+    // let ssdsFile = req.files.filter(s => s.fieldname.includes('ssds'))[0];
+    // let systemArchitectureFile = req.files.filter(s => s.fieldname.includes('system_architecture'))[0];
 
-    let projectData = {
-        "project_id": req.body.project_id,
-        "name": req.body.name,
-        "completion_date": Date.now(),
-        "manager_name": req.body.manager_name,
-        "functional_requirements": req.body.functional_requirements,
-        "scope": req.body.scope,
-        "usecases": 'uploads/' + usecasesFile.fieldname + '-' + Date.now() + fileName(usecasesFile),
-        "ssds": 'uploads/' + ssdsFile.fieldname + '-' + Date.now() + fileName(ssdsFile),
-        "system_architecture": 'uploads/' + systemArchitectureFile.fieldname + '-' + Date.now() + fileName(systemArchitectureFile)
-    }
+    // let projectData = {
+    //     "project_id": req.body.project_id,
+    //     "name": req.body.name,
+    //     "completion_date": Date.now(),
+    //     "manager_name": req.body.manager_name,
+    //     "functional_requirements": req.body.functional_requirements,
+    //     "scope": req.body.scope,
+    //     "usecases": 'uploads/' + usecasesFile.fieldname + '-' + Date.now() + fileName(usecasesFile),
+    //     "ssds": 'uploads/' + ssdsFile.fieldname + '-' + Date.now() + fileName(ssdsFile),
+    //     "system_architecture": 'uploads/' + systemArchitectureFile.fieldname + '-' + Date.now() + fileName(systemArchitectureFile)
+    // }
 
-    let result = await Projects.findOneAndReplace({ projectId }, projectData);
+    let result = await Projects.findOneAndUpdate({ projectId }, req.body);
+    console.log("Update Result: ", result, req.body);
 
-    console.log("Update Result: ", result);
     resp.send(result);
 });
 

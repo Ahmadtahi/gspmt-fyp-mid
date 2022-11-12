@@ -28,8 +28,26 @@ function EditProjects() {
     }
 
 
-    const submitData = async () => {
+    const submitData = event => {
+        event.preventDefault();
+        let postData = {
+            project_id: repoDetails.projectID,
+            name: repoDetails.projectName,
+            completion_date: repoDetails.completionDate,
+            manager_name: repoDetails.projectManager,
+            functional_requirements: repoDetails.projectFunctionalRequirement,
+            scope: repoDetails.projectScope,
+        };
 
+        axios.put(`http://localhost:5000/project/update/${params.id}`, postData)
+            .then(res => {
+                console.log("Response : ", res);
+                alert(`Project has been created successfully`);
+                window.location.reload();
+            })
+            .catch((err) => {
+                alert("Something went wrong. Please try again.")
+            })
     }
 
     const getProject = async (projectId) => {
