@@ -7,12 +7,14 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import moment from "moment";
+import Card from 'react-bootstrap/Card';
 
 function EditProjects() {
     const params = useParams();
     const [repoDetails, setrepoDetails] = useState({})
     const hiddenFileInput = React.useRef(null);
     const [uploadedFiles, setUploadedFiles] = useState([])
+    const [renderuploadedFiles, setRenderUploadedFiles] = useState([])
     // Programatically click the hidden file input element
     // when the Button component is clicked
     const handleClick = event => {
@@ -31,7 +33,6 @@ function EditProjects() {
         }
     }, [params])
 
-
     const handleInput = (e) => {
         const { name, value } = e.target
         setrepoDetails((prevState) => ({
@@ -39,7 +40,6 @@ function EditProjects() {
             [name]: value
         }))
     }
-
 
     const submitData = event => {
         event.preventDefault();
@@ -66,8 +66,8 @@ function EditProjects() {
         })
             .then(res => {
                 console.log("Response : ", res);
-                alert(`Project has been created successfully`);
-                // window.location.reload();
+                alert(`Project has been updated successfully`);
+                window.location.reload();
             })
             .catch((err) => {
                 alert("Something went wrong. Please try again.")
@@ -85,8 +85,9 @@ function EditProjects() {
                     projectID: res.data.project_id,
                     projectScope: res.data.scope
                 }
-                console.log(`Project has been fetched : `, data);
+                console.log(`Project has been fetched : `, res.data.fileNames);
                 setrepoDetails(data)
+                setRenderUploadedFiles(res.data.fileNames)
             })
             .catch((err) => {
                 // alert("Something went during fetch. Please try again.")
@@ -186,6 +187,17 @@ function EditProjects() {
                                 />
                             </InputGroup>
                         </Col>
+                        {
+                            renderuploadedFiles.map((file, idx) => {
+                                return (
+                                    <Col xs={6} className="mb-3">
+                                        <Card key={idx}>
+                                            <Card.Body>{file}</Card.Body>
+                                        </Card>
+                                    </Col>
+                                )
+                            })
+                        }
                         <Col xs={12} className="mb-3">
                             <input
                                 type="file"
@@ -194,7 +206,7 @@ function EditProjects() {
                                 style={{ display: 'none' }}
                                 multiple
                             />
-                            <Button onClick={handleClick} variant="info fullWidth" >Upload Project Related Files</Button>
+                            <Button onClick={handleClick} variant="info fullWidth" >Replace Project Related Files</Button>
                         </Col>
                         <Col xs={12}>
                             <Button variant="primary fullWidth" type="submit">Update Project</Button>
