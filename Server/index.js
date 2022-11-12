@@ -137,7 +137,6 @@ app.post('/project/create', uploadStorage.any(), async (req, resp) => {
 app.put('/project/update/:id', uploadStorage.any(), async (req, resp) => {
 
     let projectId = req.params.id;
-    console.log("🚀 ~ file: index.js ~ line 113 ~ app.put ~ projectId", projectId)
 
     // let usecasesFile = req.files.filter(s => s.fieldname.includes('usecases'))[0];
     // let ssdsFile = req.files.filter(s => s.fieldname.includes('ssds'))[0];
@@ -155,8 +154,8 @@ app.put('/project/update/:id', uploadStorage.any(), async (req, resp) => {
     //     "system_architecture": 'uploads/' + systemArchitectureFile.fieldname + '-' + Date.now() + fileName(systemArchitectureFile)
     // }
 
-    let result = await Projects.findOneAndUpdate({ projectId }, req.body);
-    console.log("Update Result: ", result, req.body);
+    let result = await Projects.findOneAndUpdate({ _id: projectId }, req.body);
+    // console.log("Update Result: ", result, req.body);
 
     resp.send(result);
 });

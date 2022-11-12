@@ -67,7 +67,7 @@ function EditProjects() {
             .then(res => {
                 console.log("Response : ", res);
                 alert(`Project has been created successfully`);
-                window.location.reload();
+                // window.location.reload();
             })
             .catch((err) => {
                 alert("Something went wrong. Please try again.")
