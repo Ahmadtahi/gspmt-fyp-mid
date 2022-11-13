@@ -23,7 +23,7 @@ function BasicExample({ projects, deleteProject, ...props }) {
                             ''
                     }
                     {
-                        JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' ?
+                        JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' || JSON.parse(localStorage.getItem("user")).userType == 'team_lead' ?
                             <th>Actions</th>
                             :
                             ''
@@ -58,7 +58,7 @@ function BasicExample({ projects, deleteProject, ...props }) {
                                         ''
                                 }
                                 {
-                                    JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' ?
+                                    JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' || JSON.parse(localStorage.getItem("user")).userType == 'team_lead' ?
                                         <td
                                             className='pointer'
                                             style={{ boxSizing: 'border-box', paddingLeft: '40px' }}

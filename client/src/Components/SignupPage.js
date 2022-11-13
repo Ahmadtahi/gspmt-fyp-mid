@@ -98,8 +98,12 @@ const Signup = () => {
                         </InputGroup>
                     </Col>
                     <Col xs={12}>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Text id="basic-addon1">Enter Your Password</InputGroup.Text>
+                        <InputGroup className="mb-3"
+                            onChange={(e) => {
+                                setUserType(e.target.value)
+                            }}
+                        >
+                            <InputGroup.Text id="basic-addon1">Enter Your Role</InputGroup.Text>
                             <Form.Select aria-label="Default select example">
                                 <option value="team_lead">Team Lead</option>
                                 <option value="project_manager">Project Manager</option>
@@ -111,9 +115,9 @@ const Signup = () => {
                         <Button variant="primary fullWidth" type="submit" onClick={collectData}>Signup</Button>
                     </Col>
                 </form>
-            </Col>
+            </Col >
             <Col xs={4} style={{ margin: 0 }}></Col>
-        </Row>
+        </Row >
     )
 }
 
