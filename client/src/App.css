@@ -6,7 +6,6 @@
 
 .App {
   text-align: left;
-  background-color: white;
 }
 
 .nav-ul li {
@@ -21,7 +20,7 @@
 .nav-ul {
   padding: 5px;
   margin: 0;
-  background-color: slategray;
+  /* background-color: slategray; */
   color: white;
 }
 

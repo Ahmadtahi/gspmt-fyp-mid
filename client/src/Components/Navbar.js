@@ -7,7 +7,7 @@ const Navbar = () => {
     return (
         <>
             <div >
-                <ul className='nav-ul'>
+                <ul className='nav-ul' style={{ borderBottom: '1px solid black' }}>
 
                     <li> <Link to='/'> Homepage </Link> </li>
                     {

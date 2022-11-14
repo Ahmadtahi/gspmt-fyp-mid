@@ -17,7 +17,6 @@ function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<h1>Home Page</h1>}></Route>
-          <Route path="/Register" element={<h1>Registration Page</h1>}></Route>
           <Route path="/Login" element={<Login></Login>}></Route>
           <Route path="/Signup" element={<Signup></Signup>}></Route>
           <Route path="/Repository" element={<Repository></Repository>}></Route>

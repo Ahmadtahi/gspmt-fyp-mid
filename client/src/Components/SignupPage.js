@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/esm/Button';
 import AppLoader from './AppLoader';
+import image from '../assets/images.png'
 
 const Signup = () => {
     const [name, setName] = useState("");
@@ -42,14 +43,13 @@ const Signup = () => {
 
     return (
 
-        <Row style={{ margin: 0, marginTop: 100 }}>
+        <Row style={{ margin: 0, minHeight: '91.5vh', }}>
             {
                 showLoader ?
                     <AppLoader />
                     :
                     ''
             }
-            <Col xs={4} style={{ margin: 0 }}></Col>
             <Col xs={4} style={{ margin: 0 }} className="flex flex-col">
                 <h1>Register page</h1>
                 <form onSubmit={submitData}>
@@ -116,7 +116,14 @@ const Signup = () => {
                     </Col>
                 </form>
             </Col >
-            <Col xs={4} style={{ margin: 0 }}></Col>
+            <Col xs={8} style={{ margin: 0, backgroundColor: 'lightblue', }} className={"flex"}>
+                <img
+                    src={image}
+                    width={300}
+                    height={300}
+                />
+            </Col>
+
         </Row >
     )
 }
