@@ -10,6 +10,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import SimilarityCheck from './SimilarityCheck';
+import AppLoader from './AppLoader';
 
 function Repository() {
     const [currentTab, setCurrentTab] = useState(0)
@@ -17,6 +18,7 @@ function Repository() {
     const [currentPage, setcurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState([])
     const [search, setsearch] = useState("")
+    const [showLoader, setshowLoader] = useState(false)
 
     useEffect(() => {
         if (currentTab === 0) {
@@ -27,6 +29,8 @@ function Repository() {
     }, [currentTab, currentPage])
 
     const fetchProjects = async () => {
+        setshowLoader(true)
+
         axios.get('http://localhost:5000/projects/all', {
             params: {
                 page: currentPage,
@@ -35,26 +39,37 @@ function Repository() {
             }
         })
             .then(res => {
+                setshowLoader(false)
                 setTotalPages(res.data.totalPages)
                 setProjects(res.data.projects)
             })
             .catch((err) => {
+                setshowLoader(false)
             })
     }
 
     const deleteProject = async (projectId) => {
+        setshowLoader(true)
         axios.post(`http://localhost:5000/project/delete/${projectId}`)
             .then(res => {
                 alert(`Project has been deleted successfully`);
+                setshowLoader(false)
                 window.location.reload();
             })
             .catch((err) => {
+                setshowLoader(false)
                 alert("Something went during fetch. Please try again.")
             })
     }
 
     return (
         <>
+            {
+                showLoader ?
+                    <AppLoader />
+                    :
+                    ''
+            }
             <Nav variant="pills" defaultActiveKey={currentTab}>
                 <Nav.Item>
                     <Nav.Link
