@@ -9,6 +9,9 @@ import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import AppLoader from './AppLoader';
 
 function SimilarityCheck() {
     const params = useParams();
@@ -17,6 +20,8 @@ function SimilarityCheck() {
     const [currentPage, setcurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState([])
     const [search, setsearch] = useState("")
+    const [selectedSimilarityType, setselectedSimilarityType] = useState('Scope')
+    const [showLoader, setshowLoader] = useState(false)
 
     useEffect(() => {
         if (params.id) {
@@ -24,24 +29,22 @@ function SimilarityCheck() {
         }
     }, [params])
 
-
-    useEffect(() => {
-        fetchProjects()
-    }, [currentPage])
-
     const fetchProjects = async () => {
-        axios.get('http://localhost:5000/projects/all', {
+        setshowLoader(true)
+
+        axios.get('http://localhost:5000/projects/similarity', {
             params: {
-                page: currentPage,
-                limit: 5,
-                ...(search ? { search } : {})
+                // ...(search ? { search } : {})
+                selectedSimilarityType,
+                search
             }
         })
             .then(res => {
-                setTotalPages(res.data.totalPages)
                 setProjects(res.data.projects)
+                setshowLoader(false)
             })
             .catch((err) => {
+                setshowLoader(false)
             })
     }
 
@@ -67,12 +70,31 @@ function SimilarityCheck() {
     return (
         <>
             <Row style={{ margin: 0 }}>
+                {
+                    showLoader ?
+                        <AppLoader />
+                        :
+                        ''
+                }
                 <Col xs={6}></Col>
                 <Col xs={6}>
                     <InputGroup className="mb-3 mt-3">
+                        <DropdownButton
+                            variant="outline-secondary"
+                            title={selectedSimilarityType}
+                            id="input-group-dropdown-1"
+                        >
+                            <Dropdown.Item onClick={() => {
+                                setselectedSimilarityType('Scope')
+                            }}>Scope</Dropdown.Item>
+                            <Dropdown.Divider />
+                            <Dropdown.Item onClick={() => {
+                                setselectedSimilarityType('Functional Requirement')
+                            }}>Functional Requirement</Dropdown.Item>
+                        </DropdownButton>
                         <Form.Control
-                            placeholder="Search Project By ID/Name"
-                            aria-label="Search Project By ID/Name"
+                            placeholder="Search Similarity"
+                            aria-label="Search Similarity"
                             aria-describedby="basic-addon2"
                             onChange={(e) => {
                                 setsearch(e.target.value)
@@ -81,10 +103,11 @@ function SimilarityCheck() {
                         />
                         <Button variant="outline-secondary" id="button-addon2"
                             onClick={() => {
-                                if (currentPage === 1) {
-                                    fetchProjects()
+                                if (!search) {
+                                    alert("Search similariy can not be empty.")
                                 } else {
-                                    setcurrentPage(1)
+                                    setProjects([])
+                                    fetchProjects()
                                 }
                             }}
                         >
@@ -103,14 +126,12 @@ function SimilarityCheck() {
                         <th>Scope</th>
                         <th>Functional Requirements</th>
                         <th>Completion Date</th>
-                        <th>Functional Requirements Similarity</th>
-                        <th>Scope Similarity</th>
+                        <th>Similarity</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         projects.filter((project) => project._id != repoDetails._id)?.map((project, idx) => {
-                            console.log("🚀 debug ~ ", project, repoDetails)
                             return (
                                 <tr key={idx}>
                                     <td>{idx + 1}</td>
@@ -126,22 +147,14 @@ function SimilarityCheck() {
                                             style={{ marginLeft: '30%' }}
                                         >
                                             {
-                                                project.functional_requirements == repoDetails.functional_requirements ?
-                                                    'Similar'
+                                                selectedSimilarityType === 'Scope' ?
+                                                    <>
+                                                        {project.scopeSimilarity.toFixed(2) * 100} %
+                                                    </>
                                                     :
-                                                    'Not Similar'
-                                            }
-                                        </Button>
-                                    </td>
-                                    <td className='flex'>
-                                        <Button
-                                            variant={project.scope == repoDetails.scope ? "success" : "danger"}
-                                        >
-                                            {
-                                                project.scope == repoDetails.scope ?
-                                                    'Similar'
-                                                    :
-                                                    'Not Similar'
+                                                    <>
+                                                        {(project.functionalSimilarity.toFixed(2) * 100).toFixed(2)} %
+                                                    </>
                                             }
                                         </Button>
                                     </td>
@@ -152,7 +165,7 @@ function SimilarityCheck() {
 
                 </tbody>
             </Table >
-            <Pagination className='flex' style={{ justifyContent: 'flex-end' }}>
+            {/* <Pagination className='flex' style={{ justifyContent: 'flex-end' }}>
                 <Pagination.First
                     onClick={() => {
                         setcurrentPage(1)
@@ -182,7 +195,7 @@ function SimilarityCheck() {
                     }}
                     disabled={currentPage === totalPages}
                 />
-            </Pagination>
+            </Pagination> */}
         </>
     )
 }

@@ -21,7 +21,6 @@ const Login = () => {
         event.preventDefault();
         setshowLoader(true)
         let postData = { name, email, password };
-        console.log("postdata: ", postData);
 
         axios.post('http://localhost:5000/login', postData)
             .then(async res => {

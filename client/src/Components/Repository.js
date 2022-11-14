@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
+import SimilarityCheck from './SimilarityCheck';
 
 function Repository() {
     const [currentTab, setCurrentTab] = useState(0)
@@ -75,7 +76,16 @@ function Repository() {
                         Add Repository
                     </Nav.Link>
                 </Nav.Item>
-
+                <Nav.Item>
+                    <Nav.Link
+                        onClick={() => {
+                            setCurrentTab(2)
+                        }}
+                        eventKey={2}
+                    >
+                        Similarity Check
+                    </Nav.Link>
+                </Nav.Item>
             </Nav>
             {
                 currentTab === 0 ?
@@ -147,7 +157,10 @@ function Repository() {
                     currentTab === 1 ?
                         <AddRepository />
                         :
-                        ''
+                        currentTab === 2 ?
+                            <SimilarityCheck />
+                            :
+                            ''
             }
 
         </>

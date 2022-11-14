@@ -16,7 +16,7 @@ function BasicExample({ projects, deleteProject, ...props }) {
                     <th>Scope</th>
                     <th>Functional Requirements</th>
                     <th>Completion Date</th>
-                    {
+                    {/* {
                         JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
                             <th>Similarity</th>
                             :
@@ -27,7 +27,7 @@ function BasicExample({ projects, deleteProject, ...props }) {
                             <th>Actions</th>
                             :
                             ''
-                    }
+                    } */}
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +42,7 @@ function BasicExample({ projects, deleteProject, ...props }) {
                                 <td>{project.scope}</td>
                                 <td>{project.functional_requirements}</td>
                                 <td>{new Date(project.completion_date).toUTCString().split(" ", 3)}</td>
-                                {
+                                {/* {
                                     JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
                                         <td className='flex'>
                                             <Button
@@ -81,7 +81,7 @@ function BasicExample({ projects, deleteProject, ...props }) {
                                         </td>
                                         :
                                         ''
-                                }
+                                } */}
                             </tr>
                         )
                     })

@@ -12,6 +12,7 @@ const fs = require('fs');
 const userEmailService = require("./Services/Email");
 const { sendMail } = require('./Utils/email.utils');
 const { emailVerificationTemplate } = require('./templates/email/email_verification');
+var stringSimilarity = require("string-similarity");
 
 
 const app = express();
@@ -188,6 +189,49 @@ app.get('/projects/all', async (req, resp) => {
         projects: result,
         totalPages,
         totalCount
+    });
+});
+
+app.get('/projects/similarity', async (req, resp) => {
+    var { selectedSimilarityType, search } = req.query;
+    let where = {}
+    if (search) {
+        // where['name'] = { $regex: search, $options: "i" }
+        // where['project_id'] = { $regex: search, $options: "i" }
+        if (selectedSimilarityType?.toLowerCase() == 'scope') {
+            where['$or'] = [
+                { scope: { $regex: search, $options: "i" } },
+            ]
+        } else if (selectedSimilarityType?.toLowerCase() == 'functional requirement') {
+            where['$or'] = [
+                { functional_requirements: { $regex: search, $options: "i" } }
+            ]
+        }
+
+
+    }
+
+    let result = await Projects.find(where);
+    const temp = result.map((r) => {
+        return {
+            _id: r._id,
+            project_id: r.project_id,
+            name: r.name,
+            completion_date: r.completion_date,
+            manager_name: r.manager_name,
+            functional_requirements: r.functional_requirements,
+            scope: r.scope,
+            fileNames: r.fileNames,
+            createdAt: r.createdAt,
+            updatedAt: r.updatedAt,
+            __v: r.__v,
+            scopeSimilarity: stringSimilarity.compareTwoStrings(r.scope, search),
+            functionalSimilarity: stringSimilarity.compareTwoStrings(r.functional_requirements, search)
+        }
+    })
+    resp.send({
+        projects: temp,
+        result
     });
 });
 
