@@ -200,7 +200,15 @@ function EditProjects() {
 
                         {
                             viewState ?
-                                ''
+                                renderuploadedFiles.map((file, idx) => {
+                                    return (
+                                        <Col xs={6} className="mb-3">
+                                            <Card key={idx}>
+                                                <Card.Body>{file}</Card.Body>
+                                            </Card>
+                                        </Col>
+                                    )
+                                })
                                 :
                                 <>
                                     {
