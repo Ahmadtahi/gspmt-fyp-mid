@@ -28,6 +28,12 @@ function BasicExample({ projects, deleteProject, ...props }) {
                             :
                             ''
                     } */}
+                    {
+                        JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' || JSON.parse(localStorage.getItem("user")).userType == 'team_lead' ?
+                            <th>Actions</th>
+                            :
+                            ''
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -82,6 +88,31 @@ function BasicExample({ projects, deleteProject, ...props }) {
                                         :
                                         ''
                                 } */}
+                                {
+                                    JSON.parse(localStorage.getItem("user")).userType == 'project_manager' || JSON.parse(localStorage.getItem("user")).userType == 'team_member' || JSON.parse(localStorage.getItem("user")).userType == 'team_lead' ?
+                                        <td
+                                            className='pointer'
+                                            style={{ boxSizing: 'border-box', paddingLeft: '40px' }}
+                                        >
+                                            {
+                                                JSON.parse(localStorage.getItem("user")).userType == 'project_manager' ?
+                                                    <>
+                                                        <AiOutlineDelete
+                                                            onClick={() => {
+                                                                deleteProject(project._id)
+                                                            }} />
+                                                    </>
+                                                    :
+                                                    <AiOutlineEdit
+                                                        onClick={() => {
+                                                            window.location.replace(`/Repository/${project._id}`)
+                                                        }}
+                                                    />
+                                            }
+                                        </td>
+                                        :
+                                        ''
+                                }
                             </tr>
                         )
                     })
