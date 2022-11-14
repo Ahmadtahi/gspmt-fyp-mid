@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import React from 'react'
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import { AiOutlineDelete, AiOutlineEdit, AiFillEye } from 'react-icons/ai';
 import Button from 'react-bootstrap/Button';
 
 function BasicExample({ projects, deleteProject, ...props }) {
@@ -109,6 +109,11 @@ function BasicExample({ projects, deleteProject, ...props }) {
                                                         }}
                                                     />
                                             }
+                                            <AiFillEye
+                                                onClick={() => {
+                                                    window.location.replace(`/Repository/${project._id}?view=true`)
+                                                }}
+                                            />
                                         </td>
                                         :
                                         ''

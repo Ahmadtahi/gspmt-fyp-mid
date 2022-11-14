@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/esm/Col';
 import moment from "moment";
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
+import queryString from "query-string"
 
 function EditProjects() {
     const params = useParams();
@@ -16,6 +17,8 @@ function EditProjects() {
     const hiddenFileInput = React.useRef(null);
     const [uploadedFiles, setUploadedFiles] = useState([])
     const [renderuploadedFiles, setRenderUploadedFiles] = useState([])
+    const [viewState, setviewState] = useState(false)
+
     // Programatically click the hidden file input element
     // when the Button component is clicked
     const handleClick = event => {
@@ -29,10 +32,14 @@ function EditProjects() {
     };
 
     useEffect(() => {
+        console.log("debug URLSearchParams : ", queryString.parse(window.location.search)?.view)
         if (params.id) {
             getProject(params.id)
         }
-    }, [params])
+        if (queryString.parse(window.location.search)?.view) {
+            setviewState(true)
+        }
+    }, [params, window.location.search])
 
     const handleInput = (e) => {
         const { name, value } = e.target
@@ -157,6 +164,7 @@ function EditProjects() {
                                     value={repoDetails.projectScope}
                                     onChange={handleInput}
                                     required
+                                    disabled={viewState}
                                 />
                             </InputGroup>
                         </Col>
@@ -171,6 +179,7 @@ function EditProjects() {
                                     value={repoDetails.projectFunctionalRequirement}
                                     onChange={handleInput}
                                     required
+                                    disabled={viewState}
                                 />
                             </InputGroup>
                         </Col>
@@ -188,39 +197,48 @@ function EditProjects() {
                                 />
                             </InputGroup>
                         </Col>
+
                         {
-                            renderuploadedFiles.map((file, idx) => {
-                                return (
-                                    <Col xs={6} className="mb-3">
-                                        <Card key={idx}>
-                                            <Card.Body>{file}</Card.Body>
-                                        </Card>
+                            viewState ?
+                                ''
+                                :
+                                <>
+                                    {
+                                        renderuploadedFiles.map((file, idx) => {
+                                            return (
+                                                <Col xs={6} className="mb-3">
+                                                    <Card key={idx}>
+                                                        <Card.Body>{file}</Card.Body>
+                                                    </Card>
+                                                </Col>
+                                            )
+                                        })
+                                    }
+                                    < Col xs={12} className="mb-3">
+                                        <input
+                                            type="file"
+                                            ref={hiddenFileInput}
+                                            onChange={handleChange}
+                                            style={{ display: 'none' }}
+                                            multiple
+                                        />
+                                        <Button onClick={handleClick} variant="info fullWidth" >Replace Project Related Files</Button>
+                                        <Alert variant={'info'} className="mt-3">
+                                            {uploadedFiles.length} new files uploaded.
+                                            <br />
+                                            Old files will be replaced by news files.
+                                        </Alert>
                                     </Col>
-                                )
-                            })
+                                    <Col xs={12}>
+                                        <Button variant="primary fullWidth" type="submit">Update Project</Button>
+                                    </Col>
+                                </>
                         }
-                        <Col xs={12} className="mb-3">
-                            <input
-                                type="file"
-                                ref={hiddenFileInput}
-                                onChange={handleChange}
-                                style={{ display: 'none' }}
-                                multiple
-                            />
-                            <Button onClick={handleClick} variant="info fullWidth" >Replace Project Related Files</Button>
-                            <Alert variant={'info'} className="mt-3">
-                                {uploadedFiles.length} new files uploaded.
-                                <br />
-                                Old files will be replaced by news files.
-                            </Alert>
-                        </Col>
-                        <Col xs={12}>
-                            <Button variant="primary fullWidth" type="submit">Update Project</Button>
-                        </Col>
+
                     </Row>
                 </Col>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 }
 
