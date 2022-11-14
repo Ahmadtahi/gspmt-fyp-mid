@@ -104,7 +104,7 @@ function EditProjects() {
 
     return (
         <div className="AddRepo">
-            <h1>Edit Project</h1>
+            <h1>{viewState ? "Add" : "Edit"} Project</h1>
             <form onSubmit={submitData} className="flex flex-col">
                 <Col xs={10} >
                     <Row>
