@@ -36,7 +36,7 @@ function SimilarityCheck() {
             params: {
                 // ...(search ? { search } : {})
                 selectedSimilarityType,
-                search
+                search: search.replaceAll('"', "")
             }
         })
             .then(res => {

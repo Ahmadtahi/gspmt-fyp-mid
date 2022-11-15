@@ -198,15 +198,18 @@ app.get('/projects/similarity', async (req, resp) => {
     if (search) {
         // where['name'] = { $regex: search, $options: "i" }
         // where['project_id'] = { $regex: search, $options: "i" }
-        if (selectedSimilarityType?.toLowerCase() == 'scope') {
-            where['$or'] = [
-                { scope: { $regex: search, $options: "i" } },
-            ]
-        } else if (selectedSimilarityType?.toLowerCase() == 'functional requirement') {
-            where['$or'] = [
-                { functional_requirements: { $regex: search, $options: "i" } }
-            ]
-        }
+        // if (selectedSimilarityType?.toLowerCase() == 'scope') {
+        where['$or'] = [
+            // { scope: { $regex: search, $options: "i" } },
+            { $text: { $search: search } },
+        ]
+        // }
+        // } else if (selectedSimilarityType?.toLowerCase() == 'functional requirement') {
+        //     where['$or'] = [
+        //         { functional_requirements: { $regex: search, $options: "i" } }
+        //         // { $text: { $search: search } },
+        //     ]
+        // }
 
 
     }
